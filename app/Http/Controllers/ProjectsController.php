@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Project;
+use App\Services\Twitter;
 use Illuminate\Http\Request;
 
 class ProjectsController extends Controller
@@ -12,11 +13,11 @@ class ProjectsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Twitter $twitter)
     {
         $projects = Project::all();
 
-        return view('projects.index', compact('projects'));
+        return view('projects.index', compact('projects', 'twitter'));
     }
 
     /**

@@ -12,4 +12,9 @@
             @endforeach
         </ul>
     </div>
+
+    <div class="box">
+        <h1 class="subtitle">Service Container & Auto-Resolution through Service Provider :</h1>
+        <p class="subtitle">Twitter API key: {{ $twitter->getKey() }}</p>
+    </div>
 @endsection

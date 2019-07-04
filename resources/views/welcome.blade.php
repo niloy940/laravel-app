@@ -3,5 +3,8 @@
 @section('title', 'Home')
 
 @section('content')
-    <h1>Hello</h1>
+    <div class="section">
+        <h1 class="subtitle">binding interface with implementation using service provider</h1>
+        <p>{{ $users->create('Niloy') }}</p>
+    </div>
 @endsection

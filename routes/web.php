@@ -1,5 +1,7 @@
 <?php
 
+use App\Repositories\UserRepository;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,8 +13,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+Route::get('/', function (UserRepository $users) {
+    return view('welcome', compact('users'));
 });
 
 Route::resource('projects', 'ProjectsController');
