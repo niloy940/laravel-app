@@ -8,6 +8,14 @@ use Illuminate\Http\Request;
 
 class ProjectsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        // $this->middleware('auth')->only(['store', 'update']);
+        // $this->middleware('auth')->except(['show']);
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +23,7 @@ class ProjectsController extends Controller
      */
     public function index(Twitter $twitter)
     {
-        $projects = Project::all();
+        $projects = Project::where('owner_id', auth()->id())->get();
 
         return view('projects.index', compact('projects', 'twitter'));
     }
@@ -38,7 +46,13 @@ class ProjectsController extends Controller
      */
     public function store(Request $request, Project $project)
     {
-        $project->createProject($request);
+        // $project->createProject($request);   //using Eloquent Relationships
+
+        $attributes = $project->validateProject($request);
+
+        $attributes['owner_id'] = auth()->id();
+
+        $project->createProject($attributes);
 
         return redirect('/projects');
     }
@@ -51,6 +65,25 @@ class ProjectsController extends Controller
      */
     public function show(Project $project)
     {
+        //user can only view his projects
+        /*if ($project->owner_id !== auth()->id()) {
+            abort(403);
+        }*/
+        // or
+        // abort_if($project->owner_id !== auth()->id(), 403);
+        // or
+        // auth()->user()->can('update', $project); through policy
+        // or
+        /* through middleware & policy in web.php
+           like this-- Route::resource('projects', 'ProjectsController')->middleware('can:update,project');
+           -- it will be applied for all methods in the controller */
+
+        //or
+        // through policy class, it will be applied for this method only
+        // so we have to add this every method of the controller
+        // recommended approch
+        $this->authorize('update', $project);
+
         return view('projects.show', compact('project'));
     }
 
@@ -74,6 +107,8 @@ class ProjectsController extends Controller
      */
     public function update(Request $request, Project $project)
     {
+        $this->authorize('update', $project);
+
         // $attributes = $project->validateProject($request);
 
         $project->updateProject($request);
@@ -89,6 +124,8 @@ class ProjectsController extends Controller
      */
     public function destroy(Project $project)
     {
+        $this->authorize('update', $project);
+
         $project->deleteProject();
 
         return redirect('/projects');

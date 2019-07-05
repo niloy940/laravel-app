@@ -20,9 +20,10 @@ class Project extends Model
         );
     }
 
-    public function createProject(Request $request)
+    public function createProject($attributes)
     {
-        $this->create($this->validateProject($request));
+        // $this->user()->create($this->validateProject($request));   //using Eloquent Relationships
+        $this->create($attributes);
     }
 
     public function updateProject(Request $request)
