@@ -23,7 +23,9 @@ class ProjectsController extends Controller
      */
     public function index(Twitter $twitter)
     {
-        $projects = Project::where('owner_id', auth()->id())->get();
+        // $projects = Project::where('owner_id', auth()->id())->get();
+
+        $projects = auth()->user()->projects;  //using eloquent relationships
 
         return view('projects.index', compact('projects', 'twitter'));
     }
@@ -46,7 +48,7 @@ class ProjectsController extends Controller
      */
     public function store(Request $request, Project $project)
     {
-        // $project->createProject($request);   //using Eloquent Relationships
+        // $user->createProject($request);   //using Eloquent Relationships
 
         $attributes = $project->validateProject($request);
 
@@ -71,6 +73,8 @@ class ProjectsController extends Controller
         }*/
         // or
         // abort_if($project->owner_id !== auth()->id(), 403);
+        // or
+        // abort_unless(\Gate::allows('update', $project), 403);  through policy
         // or
         // auth()->user()->can('update', $project); through policy
         // or
