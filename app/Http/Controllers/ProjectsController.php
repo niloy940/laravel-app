@@ -134,6 +134,8 @@ class ProjectsController extends Controller
 
         $project->deleteProject();
 
+        flash('The Project has been deleted!');
+
         return redirect('/projects');
     }
 }
