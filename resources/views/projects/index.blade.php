@@ -4,6 +4,13 @@
 
 @section('content')
     <div class="section">
+        @if (session('message'))
+            <article class="message">
+                <div class="message-header">
+                    <p> {{ session('message') }}</p>
+                </div>
+            </article>
+        @endif
         <h1 class="title">All Projects</h1>
 
         <ul>

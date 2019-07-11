@@ -56,6 +56,8 @@ class ProjectsController extends Controller
 
         $project->createProject($attributes);
 
+        flash('Your Project has been created!');
+
         return redirect('/projects');
     }
 
