@@ -48,13 +48,13 @@ class ProjectsController extends Controller
      */
     public function store(Request $request, Project $project)
     {
-        // $user->createProject($request);   //using Eloquent Relationships
+        // $attributes = $project->validateProject($request);
 
-        $attributes = $project->validateProject($request);
+        // $attributes['owner_id'] = auth()->id();
 
-        $attributes['owner_id'] = auth()->id();
+        // $project->createProject($attributes);
 
-        $project->createProject($attributes);
+        $project->createProject($request);
 
         flash('Your Project has been created!');
 

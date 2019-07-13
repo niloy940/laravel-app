@@ -43,11 +43,11 @@ class Project extends Model
         );
     }
 
-    public function createProject($attributes)
+    public function createProject($request)
     {
         // $this->create($this->validateProject($request));
 
-        $this->create($attributes);
+        auth()->user()->projects()->create($this->validateProject($request));
 
         // $project = $this->create($attributes);
 
